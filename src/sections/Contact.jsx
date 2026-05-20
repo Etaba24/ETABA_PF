@@ -10,14 +10,45 @@ export default function Contact() {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!form.name.trim() || !form.email.trim() || !form.subject.trim() || !form.message.trim()) {
+      alert("Veuillez remplir tous les champs.");
+      return;
+    }
+
     setStatus('sending');
-    // Simulation d'envoi (remplacez par votre logique d'envoi)
-    setTimeout(() => {
-      setStatus('success');
-      setForm({ name: '', email: '', subject: '', message: '' });
-    }, 1500);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          // REMPLACEZ 'VOTRE_CLE_D_ACCES_ICI' PAR LA CLÉ OBTENUE SUR WEB3FORMS.COM
+          access_key: "65cfd624-1ea3-4bf7-8140-ab40fd78247e",
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStatus('success');
+        setForm({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi:", error);
+      setStatus('error');
+    }
   };
 
   const contactItems = [
@@ -30,7 +61,7 @@ export default function Contact() {
     },
     {
       // icon: '📱',
-      label: 'Téléphone',
+      label: 'Téléphone/Whatsapp',
       value: personalInfo.phone,
       href: `tel:${personalInfo.phone}`,
       id: 'contact-phone-link',
@@ -118,7 +149,6 @@ export default function Contact() {
               className="contact__form"
               onSubmit={handleSubmit}
               aria-label="Formulaire de contact"
-              noValidate
             >
               <div className="contact__form-row">
                 <div className="contact__field">
