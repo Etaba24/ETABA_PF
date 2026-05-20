@@ -77,6 +77,7 @@ export default function Navbar() {
           className="btn btn-primary navbar__cta"
           target="_blank"
           rel="noopener noreferrer"
+          download="cv.pdf"
           id="navbar-cv-btn"
         >
           Télécharger CV
@@ -106,7 +107,7 @@ export default function Navbar() {
             {label}
           </a>
         ))}
-        <a href={personalInfo.cvUrl} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+        <a href={personalInfo.cvUrl} className="btn btn-primary" target="_blank" rel="noopener noreferrer" download="cv.pdf">
           Télécharger CV
         </a>
       </div>

@@ -81,6 +81,7 @@ export default function About() {
                 className="btn btn-primary"
                 target="_blank"
                 rel="noopener noreferrer"
+                download="cv.pdf"
                 id="about-cv-btn"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
